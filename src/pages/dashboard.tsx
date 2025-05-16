@@ -43,7 +43,15 @@ export default function Dashboard() {
           {gyms.map((gym) => (
             <div
               key={gym.id}
-              onClick={() => router.push(`/gyms/${gym.id}`)}
+              onClick={() => {
+                if (gym.id === 'lifetime') {
+                  window.open('https://multi-user-lifetime-app.vercel.app/', '_blank');
+                } else if (gym.id === 'Solidcore') {
+                  window.open('https://solidcore-schedule.vercel.app/', '_blank');
+                } else {
+                  router.push(`/gyms/${gym.id}`);
+                }
+              }}
               className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transform transition duration-200 hover:scale-105 hover:shadow-lg"
             >
               <div className="p-6">
