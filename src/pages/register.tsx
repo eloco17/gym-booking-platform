@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import Link from 'next/link';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -27,8 +28,12 @@ export default function Register() {
       });
       setSuccess('Registration successful! Redirecting to login...');
       setTimeout(() => router.push('/login'), 1500);
-    } catch (err: any) {
-      setError(err.message || 'Failed to register.');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err) {
+        setError((err as { message?: string }).message || 'Failed to register.');
+      } else {
+        setError('Failed to register.');
+      }
     } finally {
       setLoading(false);
     }
@@ -83,7 +88,7 @@ export default function Register() {
         </form>
         <div className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{' '}
-          <a href="/login" className="text-indigo-600 hover:underline font-medium">Sign in</a>
+          <Link href="/login" className="text-indigo-600 hover:underline font-medium">Sign in</Link>
         </div>
       </div>
     </div>

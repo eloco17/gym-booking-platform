@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -80,7 +81,7 @@ export default function Login() {
           </div>
           <div className="text-center text-sm text-gray-600">
             Don&apos;t have an account?{' '}
-            <a href="/register" className="text-indigo-600 hover:underline font-medium">Register</a>
+            <Link href="/register" className="text-indigo-600 hover:underline font-medium">Register</Link>
           </div>
         </form>
       </div>
