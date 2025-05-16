@@ -1,24 +1,39 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const gyms = [
   {
     id: 'lifetime',
     name: 'LifeTime Pickleball',
     description: 'Book your pickleball court at LifeTime Fitness',
-    image: '/lifetime-logo.png',
+    image: '/lifetime-logo.png', // You'll need to add this image to your public folder
   },
   {
     id: 'Solidcore',
     name: 'Solidcore',
     description: 'Book your Solidcore class',
-    image: '/Solidcore-logo.png',
+    image: '/Solidcore-logo.png', // You'll need to add this image to your public folder
   },
 ];
 
-export default function DashboardPage() {
+export default function Dashboard() {
+  const { user, loading } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -28,7 +43,13 @@ export default function DashboardPage() {
           {gyms.map((gym) => (
             <div
               key={gym.id}
-              onClick={() => router.push(`/gyms/${gym.id}`)}
+              onClick={() => {
+                if (gym.id === 'lifetime') {
+                  window.open('https://multi-user-lifetime-app.vercel.app/', '_blank');
+                } else {
+                  router.push(`/gyms/${gym.id}`);
+                }
+              }}
               className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transform transition duration-200 hover:scale-105 hover:shadow-lg"
             >
               <div className="p-6">
