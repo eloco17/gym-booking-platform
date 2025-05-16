@@ -27,7 +27,7 @@ export default function Dashboard() {
     }
   }, [user, loading, router]);
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
@@ -43,13 +43,7 @@ export default function Dashboard() {
           {gyms.map((gym) => (
             <div
               key={gym.id}
-              onClick={() => {
-                if (gym.id === 'lifetime') {
-                  window.open('https://multi-user-lifetime-app.vercel.app/', '_blank');
-                } else {
-                  router.push(`/gyms/${gym.id}`);
-                }
-              }}
+              onClick={() => router.push(`/gyms/${gym.id}`)}
               className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transform transition duration-200 hover:scale-105 hover:shadow-lg"
             >
               <div className="p-6">
