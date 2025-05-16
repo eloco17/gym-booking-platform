@@ -20,7 +20,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(email, password);
-    } catch (error) {
+    } catch {
       setError('Failed to login. Please check your credentials.');
     }
   };
